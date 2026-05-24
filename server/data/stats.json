@@ -1,0 +1,6 @@
+[
+  { "id": 1, "label": "Anggota Aktif", "value": "65+", "iconName": "Users" },
+  { "id": 2, "label": "Luas Lahan", "value": "3 Ha", "iconName": "MapPin" },
+  { "id": 3, "label": "Produk Olahan", "value": "15+", "iconName": "ShoppingBag" },
+  { "id": 4, "label": "Tahun Berdiri", "value": "2019", "iconName": "Leaf" }
+]

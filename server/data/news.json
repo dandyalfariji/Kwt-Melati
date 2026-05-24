@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "title": "Panen Raya Sorgum Semester Pertama 2026",
+    "date": "15 April 2026",
+    "excerpt": "KWT Melati Sorgum berhasil memanen lebih dari 500kg sorgum berkualitas dari lahan binaan...",
+    "image": "https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&q=80&w=400"
+  },
+  {
+    "id": 2,
+    "title": "Pelatihan Pengolahan Tepung Sorgum untuk UMKM",
+    "date": "10 Maret 2026",
+    "excerpt": "Workshop intensif bagi ibu-ibu PKK desa Bojongmangu dalam membuat variasi menu berbasis sorgum...",
+    "image": "https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=400"
+  },
+  {
+    "id": 3,
+    "title": "Kunjungan Dinas Pertanian Kabupaten Bekasi",
+    "date": "2 Februari 2026",
+    "excerpt": "Apresiasi atas inovasi pangan lokal yang berkelanjutan di wilayah Bojongmangu oleh kepala dinas...",
+    "image": "https://images.unsplash.com/photo-1590424753042-959449936ec0?auto=format&fit=crop&q=80&w=400"
+  }
+]
