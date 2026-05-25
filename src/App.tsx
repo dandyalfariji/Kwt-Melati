@@ -293,7 +293,8 @@ export default function App() {
         <main>
           <Routes>
             <Route path="/" element={
-              <Home 
+              <PageRenderer 
+                cmsPages={cmsPages}
                 cmsProducts={cmsProducts}
                 cmsNews={cmsNews}
                 gallery={gallery}
@@ -302,6 +303,7 @@ export default function App() {
                 setFormState={setFormState}
                 formStatus={formStatus}
                 handleContactSubmit={handleContactSubmit}
+                customSlug="beranda"
               />
             } />
             <Route path="/berita" element={
