@@ -40,14 +40,24 @@ export async function fetchNewsById(id: number) {
 
 // Gallery
 export async function fetchGallery() {
-  const res = await fetch(`${API_BASE}/gallery`);
-  return handleResponse<any[]>(res);
+  try {
+    const res = await fetch(`${API_BASE}/gallery`);
+    return await handleResponse<any[]>(res);
+  } catch {
+    console.warn('[API] fetchGallery failed (Express server not available), returning empty array');
+    return [];
+  }
 }
 
 // Stats
 export async function fetchStats() {
-  const res = await fetch(`${API_BASE}/stats`);
-  return handleResponse<any[]>(res);
+  try {
+    const res = await fetch(`${API_BASE}/stats`);
+    return await handleResponse<any[]>(res);
+  } catch {
+    console.warn('[API] fetchStats failed (Express server not available), returning empty array');
+    return [];
+  }
 }
 
 // Contact

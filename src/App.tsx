@@ -24,12 +24,26 @@ const optimizeGoogleDriveUrl = (url: string): string => {
   if (!url || typeof url !== "string") return url;
   const decodedUrl = url.replace(/&amp;/g, "&");
   
-  // If it's already a local proxy URL, return as-is
-  if (decodedUrl.startsWith('/api/img-proxy')) return decodedUrl;
+  // Convert Google Drive sharing URLs to direct thumbnail URLs
+  // These work without CORS issues and without a proxy server
+  const driveFileMatch = decodedUrl.match(/drive\.google\.com\/file\/d\/([^/]+)/);
+  if (driveFileMatch && driveFileMatch[1]) {
+    return `https://lh3.googleusercontent.com/d/${driveFileMatch[1]}=w1200`;
+  }
   
-  // Proxy all Google Drive and googleusercontent images through local server to bypass CORS
-  if (decodedUrl.includes("drive.google.com") || decodedUrl.includes("googleusercontent.com")) {
-    return `/api/img-proxy?url=${encodeURIComponent(decodedUrl)}`;
+  const driveOpenMatch = decodedUrl.match(/drive\.google\.com\/open\?id=([^&]+)/);
+  if (driveOpenMatch && driveOpenMatch[1]) {
+    return `https://lh3.googleusercontent.com/d/${driveOpenMatch[1]}=w1200`;
+  }
+  
+  const driveUcMatch = decodedUrl.match(/drive\.google\.com\/uc\?.*id=([^&]+)/);
+  if (driveUcMatch && driveUcMatch[1]) {
+    return `https://lh3.googleusercontent.com/d/${driveUcMatch[1]}=w1200`;
+  }
+
+  // Already a googleusercontent URL, return as-is
+  if (decodedUrl.includes("googleusercontent.com")) {
+    return decodedUrl;
   }
 
   return decodedUrl;
@@ -183,13 +197,18 @@ export default function App() {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const [s, g, postsData, navData, settingsData, pagesData] = await Promise.all([
+        // Group 1: CMS data (always available in production)
+        const [postsData, navData, settingsData, pagesData] = await Promise.all([
+          api.getPosts().catch((err) => { console.warn('[CMS] getPosts failed:', err); return []; }),
+          api.getNavigation().catch((err) => { console.warn('[CMS] getNavigation failed:', err); return []; }),
+          api.getSettings().catch((err) => { console.warn('[CMS] getSettings failed:', err); return null; }),
+          api.getPages().catch((err) => { console.warn('[CMS] getPages failed:', err); return []; })
+        ]);
+
+        // Group 2: Express server data (only available on localhost, gracefully fails in production)
+        const [s, g] = await Promise.all([
           api.fetchStats(),
-          api.fetchGallery(),
-          api.getPosts(),
-          api.getNavigation(),
-          api.getSettings(),
-          api.getPages().catch(() => [])
+          api.fetchGallery()
         ]);
         
         // Map posts to resolve image URL from nested content structure
@@ -207,8 +226,12 @@ export default function App() {
         setStats(s);
         setGallery(g);
         // Sort navigation by priority
-        setNavigation(navData.sort((a: Navigation, b: Navigation) => a.priority - b.priority));
-        setSettings(settingsData);
+        if (Array.isArray(navData) && navData.length > 0) {
+          setNavigation(navData.sort((a: Navigation, b: Navigation) => a.priority - b.priority));
+        }
+        if (settingsData) {
+          setSettings(settingsData);
+        }
         // Dynamically insert the Profile Tabs section into the Beranda page content if not already present
         const berandaPage = pagesData.find((p: any) => p.slug === "beranda");
         const profilPage = pagesData.find((p: any) => p.slug === "profil");
@@ -270,31 +293,16 @@ export default function App() {
         <main>
           <Routes>
             <Route path="/" element={
-              cmsPages.some((p: any) => p.slug === "beranda") ? (
-                <PageRenderer 
-                  cmsPages={cmsPages}
-                  cmsProducts={cmsProducts}
-                  cmsNews={cmsNews}
-                  gallery={gallery}
-                  stats={stats}
-                  formState={formState}
-                  setFormState={setFormState}
-                  formStatus={formStatus}
-                  handleContactSubmit={handleContactSubmit}
-                  customSlug="beranda"
-                />
-              ) : (
-                <Home 
-                  cmsProducts={cmsProducts}
-                  cmsNews={cmsNews}
-                  gallery={gallery}
-                  stats={stats}
-                  formState={formState}
-                  setFormState={setFormState}
-                  formStatus={formStatus}
-                  handleContactSubmit={handleContactSubmit}
-                />
-              )
+              <Home 
+                cmsProducts={cmsProducts}
+                cmsNews={cmsNews}
+                gallery={gallery}
+                stats={stats}
+                formState={formState}
+                setFormState={setFormState}
+                formStatus={formStatus}
+                handleContactSubmit={handleContactSubmit}
+              />
             } />
             <Route path="/berita" element={
               <Berita cmsNews={cmsNews} />

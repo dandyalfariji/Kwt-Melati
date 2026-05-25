@@ -25,12 +25,26 @@ export const optimizeGoogleDriveUrl = (url: string): string => {
   if (!url || typeof url !== "string") return url;
   const decodedUrl = url.replace(/&amp;/g, "&");
   
-  // If it's already a local proxy URL, return as-is
-  if (decodedUrl.startsWith('/api/img-proxy')) return decodedUrl;
+  // Convert Google Drive sharing URLs to direct thumbnail URLs
+  // These work without CORS issues and without a proxy server
+  const driveFileMatch = decodedUrl.match(/drive\.google\.com\/file\/d\/([^/]+)/);
+  if (driveFileMatch && driveFileMatch[1]) {
+    return `https://lh3.googleusercontent.com/d/${driveFileMatch[1]}=w1200`;
+  }
   
-  // Proxy all Google Drive and googleusercontent images through local server to bypass CORS
-  if (decodedUrl.includes("drive.google.com") || decodedUrl.includes("googleusercontent.com")) {
-    return `/api/img-proxy?url=${encodeURIComponent(decodedUrl)}`;
+  const driveOpenMatch = decodedUrl.match(/drive\.google\.com\/open\?id=([^&]+)/);
+  if (driveOpenMatch && driveOpenMatch[1]) {
+    return `https://lh3.googleusercontent.com/d/${driveOpenMatch[1]}=w1200`;
+  }
+  
+  const driveUcMatch = decodedUrl.match(/drive\.google\.com\/uc\?.*id=([^&]+)/);
+  if (driveUcMatch && driveUcMatch[1]) {
+    return `https://lh3.googleusercontent.com/d/${driveUcMatch[1]}=w1200`;
+  }
+
+  // Already a googleusercontent URL, return as-is
+  if (decodedUrl.includes("googleusercontent.com")) {
+    return decodedUrl;
   }
 
   return decodedUrl;
