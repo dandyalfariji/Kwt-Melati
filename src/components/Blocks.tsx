@@ -37,7 +37,7 @@ export const optimizeGoogleDriveUrl = (url: string): string => {
     return `https://lh3.googleusercontent.com/d/${driveOpenMatch[1]}=w1200`;
   }
   
-  const driveUcMatch = decodedUrl.match(/drive\.google\.com\/uc\?.*id=([^&]+)/);
+  const driveUcMatch = decodedUrl.match(/drive\.google\.com\/(?:uc|thumbnail)\?.*id=([^&]+)/);
   if (driveUcMatch && driveUcMatch[1]) {
     return `https://lh3.googleusercontent.com/d/${driveUcMatch[1]}=w1200`;
   }
