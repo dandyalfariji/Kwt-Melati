@@ -270,16 +270,31 @@ export default function App() {
         <main>
           <Routes>
             <Route path="/" element={
-              <Home 
-                cmsProducts={cmsProducts}
-                cmsNews={cmsNews}
-                gallery={gallery}
-                stats={stats}
-                formState={formState}
-                setFormState={setFormState}
-                formStatus={formStatus}
-                handleContactSubmit={handleContactSubmit}
-              />
+              cmsPages.some((p: any) => p.slug === "beranda") ? (
+                <PageRenderer 
+                  cmsPages={cmsPages}
+                  cmsProducts={cmsProducts}
+                  cmsNews={cmsNews}
+                  gallery={gallery}
+                  stats={stats}
+                  formState={formState}
+                  setFormState={setFormState}
+                  formStatus={formStatus}
+                  handleContactSubmit={handleContactSubmit}
+                  customSlug="beranda"
+                />
+              ) : (
+                <Home 
+                  cmsProducts={cmsProducts}
+                  cmsNews={cmsNews}
+                  gallery={gallery}
+                  stats={stats}
+                  formState={formState}
+                  setFormState={setFormState}
+                  formStatus={formStatus}
+                  handleContactSubmit={handleContactSubmit}
+                />
+              )
             } />
             <Route path="/berita" element={
               <Berita cmsNews={cmsNews} />
