@@ -72,8 +72,8 @@ export async function checkApiHealth() {
 
 // --- Headless CMS Integration ---
 
-const CMS_API_BASE = import.meta.env.VITE_API_BASE_URL;
-const CMS_API_KEY = import.meta.env.VITE_CMS_API_KEY;
+const CMS_API_BASE = import.meta.env.VITE_API_BASE_URL || 'https://uni-verse-headless-cms.onrender.com/api/v1';
+const CMS_API_KEY = import.meta.env.VITE_CMS_API_KEY || 'uni_d128126206278d0d68e709bba04e854eb3462aec446ed16c';
 
 async function fetchFromCMS<T>(endpoint: string): Promise<T> {
   if (!CMS_API_BASE || !CMS_API_KEY) {
