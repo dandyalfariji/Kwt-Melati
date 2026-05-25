@@ -1,0 +1,224 @@
+﻿{
+    "value":  [
+                  {
+                      "id":  75,
+                      "tenant_id":  18,
+                      "title":  "Beranda",
+                      "slug":  "beranda",
+                      "content":  [
+                                      {
+                                          "id":  "1779290861412yjs4hj2",
+                                          "type":  "hero",
+                                          "data":  {
+                                                       "headline":  "Pangan Sehat, Masa Depan Berkelanjutan",
+                                                       "sub_headline":  "SORGUM",
+                                                       "background_image":  "https://drive.google.com/thumbnail?id=1_FdVsdoXi0Bqn4QI9cC0djYZEUE_UjKC\u0026sz=w1200",
+                                                       "stats":  [
+                                                                     {
+                                                                         "label":  "",
+                                                                         "value":  ""
+                                                                     }
+                                                                 ]
+                                                   }
+                                      },
+                                      {
+                                          "id":  "1779290880107axrj3ex",
+                                          "type":  "dynamic-post-feed",
+                                          "data":  {
+                                                       "category":  null,
+                                                       "limit":  4,
+                                                       "sort_order":  "desc",
+                                                       "selection_mode":  "dynamic",
+                                                       "selected_post_ids":  [
+                                                                                 118
+                                                                             ]
+                                                   }
+                                      }
+                                  ],
+                      "status":  "published",
+                      "author_id":  null,
+                      "created_at":  "2026-05-19T12:21:07.000Z",
+                      "updated_at":  "2026-05-24T08:01:02.000Z",
+                      "is_in_navbar":  1,
+                      "priority":  1,
+                      "is_contact_form_active":  true
+                  },
+                  {
+                      "id":  76,
+                      "tenant_id":  18,
+                      "title":  "Profil Kami",
+                      "slug":  "profil",
+                      "content":  [
+                                      {
+                                          "id":  "1779193319270pey7p77",
+                                          "type":  "profile-tabs",
+                                          "data":  {
+                                                       "title":  "KWT Melati Sorgum",
+                                                       "tabs":  [
+                                                                    {
+                                                                        "label":  "Latar Belakang",
+                                                                        "content":  "\u003cp\u003ehttps://drive.google.com/thumbnail?id=1nQ_Xzn9ORVXIG3b4RVp8ImBUUpo0YedS\u0026amp;sz=w1200\u003c/p\u003e\u003cp\u003e\u003c/p\u003e\u003cp\u003eBerawal dari semangat para wanita tani di Bojongmangu, KWT Melati hadir untuk mengoptimalkan potensi sorgum sebagai sumber pangan alternatif yang kaya manfaat. Kami memproses setiap hasil tani secara higienis, menjaga keaslian cita rasa, serta memastikan gerakan ini mampu mengenalkan pangan lokal yang aman dikonsumsi oleh siapa saja, termasuk mereka yang memiliki sensitivitas terhadap gluten.\u003c/p\u003e"
+                                                                    },
+                                                                    {
+                                                                        "label":  "Layanan ",
+                                                                        "content":  "\u003cp\u003eSebagai kelompok yang berfokus pada pengembangan pangan lokal, KWT Melati menyediakan beberapa layanan berbasis pemberdayaan dan pertanian, antara lain:\u003c/p\u003e\u003cul\u003e\u003cli\u003e\u003cstrong\u003ePenyediaan Bahan Baku Sorgum:\u003c/strong\u003e Melayani permintaan pasokan biji sorgum pilihan hasil panen petani lokal yang berkualitas dan terjaga kealamiannya.\u003c/li\u003e\u003cli\u003e\u003cstrong\u003eEdukasi \u0026amp; Pelatihan Pangan:\u003c/strong\u003e Menerima kunjungan studi, \u003cem\u003esharing session\u003c/em\u003e, atau kerja sama pelatihan mengenai pemanfaatan tanaman sorgum untuk diversifikasi pangan.\u003c/li\u003e\u003cli\u003e\u003cstrong\u003eKonsultasi Budidaya Lokal:\u003c/strong\u003e Berbagi pengalaman dan pendampingan mengenai teknik penanaman serta perawatan sorgum yang adaptif terhadap iklim pedesaan.\u003c/li\u003e\u003c/ul\u003e"
+                                                                    },
+                                                                    {
+                                                                        "label":  "Visi \u0026 Misi",
+                                                                        "content":  "\u003cp\u003e\u003cstrong\u003eVisi:\u003c/strong\u003e\u003c/p\u003e\u003cp\u003eMenjadi kelompok wanita tani pelopor kemandirian pangan lokal yang sehat, tangguh, dan berdaya saing tinggi melalui optimalisasi potensi pertanian sorgum di Bojongmangu.\u003c/p\u003e\u003cp\u003e\u003cstrong\u003eMisi:\u003c/strong\u003e\u003c/p\u003e\u003col\u003e\u003cli\u003eMeningkatkan keterampilan, pengetahuan, dan kesejahteraan anggota melalui tata kelola pertanian yang berkelanjutan.\u003c/li\u003e\u003cli\u003eMengedukasi masyarakat luas mengenai pentingnya diversifikasi pangan sehat berbasis tanaman lokal bebas gluten.\u003c/li\u003e\u003cli\u003eMembangun solidaritas dan kemandirian ekonomi perempuan di sektor pertanian pedesaan.\u003c/li\u003e\u003c/ol\u003e"
+                                                                    },
+                                                                    {
+                                                                        "label":  "Program \u0026 Kegiatan",
+                                                                        "content":  "\u003cp\u003eUntuk mencapai tujuan kelompok, KWT Melati secara rutin menjalankan berbagai program kerja berbasis komunitas, antara lain:\u003c/p\u003e\u003cul\u003e\u003cli\u003e\u003cstrong\u003eEdukasi Pangan Sehat:\u003c/strong\u003e Menyelenggarakan sosialisasi mengenai manfaat sorgum dan pentingnya diversifikasi pangan non-beras kepada masyarakat sekitar.\u003c/li\u003e\u003cli\u003e\u003cstrong\u003ePelatihan Budidaya \u0026amp; Pasca-Panen:\u003c/strong\u003e Meningkatkan kapasitas anggota dalam teknik penanaman sorgum yang ramah lingkungan serta penanganan hasil panen yang baik.\u003c/li\u003e\u003cli\u003e\u003cstrong\u003ePemberdayaan Wanita Tani:\u003c/strong\u003e Mengembangkan kreativitas anggota dalam mengelola organisasi dan mengoptimalkan pekarangan rumah sebagai sumber pangan mandiri.\u003c/li\u003e\u003c/ul\u003e"
+                                                                    }
+                                                                ]
+                                                   }
+                                      }
+                                  ],
+                      "status":  "published",
+                      "author_id":  null,
+                      "created_at":  "2026-05-19T12:22:11.000Z",
+                      "updated_at":  "2026-05-24T09:55:08.000Z",
+                      "is_in_navbar":  1,
+                      "priority":  2,
+                      "is_contact_form_active":  true
+                  },
+                  {
+                      "id":  79,
+                      "tenant_id":  18,
+                      "title":  "Galeri",
+                      "slug":  "galeri",
+                      "content":  [
+                                      {
+                                          "id":  "17791934391252qcndp1",
+                                          "type":  "gallery",
+                                          "data":  {
+                                                       "title":  null,
+                                                       "subtitle":  null,
+                                                       "images":  [
+                                                                      {
+                                                                          "url":  "https://drive.google.com/thumbnail?id=1_FdVsdoXi0Bqn4QI9cC0djYZEUE_UjKC\u0026sz=w1200",
+                                                                          "caption":  null,
+                                                                          "alt_text":  null,
+                                                                          "category":  null,
+                                                                          "image_title":  null,
+                                                                          "description":  null,
+                                                                          "location":  null,
+                                                                          "time":  null,
+                                                                          "button_label":  null,
+                                                                          "button_url":  null
+                                                                      },
+                                                                      {
+                                                                          "url":  "https://drive.google.com/thumbnail?id=1W-VHW9Io_JMoOYYlmpkW2_mWRCSsDTGo\u0026sz=w1200",
+                                                                          "caption":  null,
+                                                                          "alt_text":  null,
+                                                                          "category":  null,
+                                                                          "image_title":  null,
+                                                                          "description":  null,
+                                                                          "location":  null,
+                                                                          "time":  null,
+                                                                          "button_label":  null,
+                                                                          "button_url":  null
+                                                                      },
+                                                                      {
+                                                                          "url":  "https://drive.google.com/thumbnail?id=1Yxyegj68efh4sBSQ7ZZF6-897LbM0nsQ\u0026sz=w1200",
+                                                                          "caption":  null,
+                                                                          "alt_text":  null,
+                                                                          "category":  null,
+                                                                          "image_title":  null,
+                                                                          "description":  null,
+                                                                          "location":  null,
+                                                                          "time":  null,
+                                                                          "button_label":  null,
+                                                                          "button_url":  null
+                                                                      },
+                                                                      {
+                                                                          "url":  "https://drive.google.com/thumbnail?id=1f5KrIqn7y6kKBhRid5Qyh1GVqXXPPQ69\u0026sz=w1200",
+                                                                          "caption":  null,
+                                                                          "alt_text":  null,
+                                                                          "category":  null,
+                                                                          "image_title":  null,
+                                                                          "description":  null,
+                                                                          "location":  null,
+                                                                          "time":  null,
+                                                                          "button_label":  null,
+                                                                          "button_url":  null
+                                                                      },
+                                                                      {
+                                                                          "url":  "https://drive.google.com/thumbnail?id=1nQ_Xzn9ORVXIG3b4RVp8ImBUUpo0YedS\u0026sz=w1200",
+                                                                          "caption":  null,
+                                                                          "alt_text":  null,
+                                                                          "category":  null,
+                                                                          "image_title":  null,
+                                                                          "description":  null,
+                                                                          "location":  null,
+                                                                          "time":  null,
+                                                                          "button_label":  null,
+                                                                          "button_url":  null
+                                                                      },
+                                                                      {
+                                                                          "url":  "https://drive.google.com/thumbnail?id=1zgkboF4QkspTJepLCToQ4MrEJWUVo_1j\u0026sz=w1200",
+                                                                          "caption":  null,
+                                                                          "alt_text":  null,
+                                                                          "category":  null,
+                                                                          "image_title":  null,
+                                                                          "description":  null,
+                                                                          "location":  null,
+                                                                          "time":  null,
+                                                                          "button_label":  null,
+                                                                          "button_url":  null
+                                                                      }
+                                                                  ]
+                                                   }
+                                      }
+                                  ],
+                      "status":  "published",
+                      "author_id":  null,
+                      "created_at":  "2026-05-19T12:23:58.000Z",
+                      "updated_at":  "2026-05-24T08:05:31.000Z",
+                      "is_in_navbar":  1,
+                      "priority":  6,
+                      "is_contact_form_active":  true
+                  },
+                  {
+                      "id":  80,
+                      "tenant_id":  18,
+                      "title":  "Hubungi Kami",
+                      "slug":  "hubungi-kami",
+                      "content":  [
+                                      {
+                                          "id":  "1779327829247jk4ny4h",
+                                          "type":  "contacts",
+                                          "data":  {
+                                                       "title":  "Mari Berkolaborasi",
+                                                       "phone_numbers":  [
+                                                                             "+62 123423421"
+                                                                         ],
+                                                       "emails":  [
+                                                                      "kwtsorgum@gmail.com"
+                                                                  ],
+                                                       "addresses":  [
+
+                                                                     ],
+                                                       "map_location_url":  "https://maps.google.com/maps?q=--7.0111459,107.5436652,12.98z=14\u0026output=embed",
+                                                       "social_links":  [
+                                                                            {
+                                                                                "platform":  "Instagram",
+                                                                                "url":  "https://www.instagram.com/dndyalfrji_/"
+                                                                            }
+                                                                        ],
+                                                       "working_hours":  null
+                                                   }
+                                      }
+                                  ],
+                      "status":  "published",
+                      "author_id":  null,
+                      "created_at":  "2026-05-19T12:24:40.000Z",
+                      "updated_at":  "2026-05-25T02:18:07.000Z",
+                      "is_in_navbar":  1,
+                      "priority":  5,
+                      "is_contact_form_active":  true
+                  }
+              ],
+    "Count":  4
+}

@@ -44,9 +44,9 @@ export default function Navbar({ settings, cmsPages }: NavbarProps) {
               className="flex items-center justify-center"
             >
               <img 
-                src="/logo_kwt_baru.jpeg" 
+                src="/logo baru.jpg" 
                 alt="Logo KWT Melati" 
-                className="h-14 w-auto object-contain rounded-md drop-shadow-sm"
+                className="h-14 w-auto object-contain mix-blend-multiply"
               />
             </motion.div>
           </Link>

@@ -14,7 +14,10 @@ import {
   Newspaper,
   Eye,
   Mail,
-  Clock
+  Clock,
+  Instagram,
+  Globe,
+  ExternalLink
 } from "lucide-react";
 import { Post, GalleryItem, Stat } from "../types";
 
@@ -985,24 +988,90 @@ export const RichTextBlock = ({ data }: { data: any }) => {
   );
 };
 
-export const ContactsBlock = ({ data, formState, setFormState, formStatus, handleContactSubmit }: {
+
+
+export const ContactsBlock = ({ data }: {
   data: any;
-  formState: any;
-  setFormState: any;
-  formStatus: any;
-  handleContactSubmit: any;
 }) => {
-  const title = data.title || "Mari Berkolaborasi";
-  const subtitle = data.subtitle || "Sinergi Bersama";
-  const description = data.description || "Punya ide kegiatan bersama atau ingin berkunjung ke kebun kami? Jangan ragu untuk menyapa kami.";
-  const phone = data.phone || (Array.isArray(data.phone_numbers) && data.phone_numbers[0]) || "+62 812-3456-7890";
-  const address = data.address || (Array.isArray(data.addresses) && data.addresses[0]) || "Desa Bojongmanggu, Kabupaten Bandung";
-  const email = data.email || (Array.isArray(data.emails) && data.emails[0]) || "";
-  const mapLocationUrl = data.map_location_url || data.mapLocationUrl || "";
-  const workingHours = data.working_hours || data.workingHours || "";
+  const title = data?.title || "Mari Berkolaborasi";
+  const subtitle = data?.subtitle || "Sinergi Bersama";
+  const description = data?.description || "Punya ide kegiatan bersama atau ingin berkunjung ke kebun kami? Jangan ragu untuk menyapa kami.";
+  
+  // Safely extract arrays from CMS data
+  const phones: string[] = (() => {
+    if (Array.isArray(data?.phone_numbers) && data.phone_numbers.length > 0) return data.phone_numbers;
+    if (data?.phone) return [data.phone];
+    return ["+62 812-3456-7890"];
+  })();
+  
+  const addresses: string[] = (() => {
+    if (Array.isArray(data?.addresses) && data.addresses.length > 0) return data.addresses;
+    if (data?.address) return [data.address];
+    return [];
+  })();
+  
+  const emails: string[] = (() => {
+    if (Array.isArray(data?.emails) && data.emails.length > 0) return data.emails;
+    if (data?.email) return [data.email];
+    return [];
+  })();
+  
+  const mapLocationUrl: string = data?.map_location_url || data?.mapLocationUrl || "";
+  const workingHours: string = data?.working_hours || data?.workingHours || "";
+  
+  // social_links can be array of { name: string, url: string } or { platform: string, url: string }
+  const socialLinks: { name: string; url: string }[] = (() => {
+    if (!Array.isArray(data?.social_links)) return [];
+    return data.social_links
+      .filter((sl: any) => sl && (sl.url || sl.link))
+      .map((sl: any) => ({
+        name: sl.name || sl.platform || sl.label || "Link",
+        url: sl.url || sl.link || ""
+      }));
+  })();
+
+  const getSocialIcon = (name: string) => {
+    if (!name) return <Globe className="w-5 h-5" />;
+    const n = name.toLowerCase();
+    if (n.includes("instagram")) return <Instagram className="w-5 h-5" />;
+    if (n.includes("facebook")) return <Globe className="w-5 h-5" />;
+    return <Globe className="w-5 h-5" />;
+  };
+
+  // Build the iframe embed src from the CMS map URL
+  const buildEmbedSrc = (url: string): string => {
+    if (!url) return "";
+    if (url.includes("output=embed")) return url;
+    
+    // For full maps.google.com URLs with q= param
+    if (url.includes("maps.google.com") && url.includes("q=")) {
+      return url.includes("?") ? url + "&output=embed" : url + "?output=embed";
+    }
+
+    // For maps.google.com/maps/place/... URLs
+    if (url.includes("/place/")) {
+      const placeMatch = url.match(/\/place\/([^/]+)/);
+      if (placeMatch && placeMatch[1]) {
+        const placeName = decodeURIComponent(placeMatch[1].replace(/\+/g, ' '));
+        return `https://maps.google.com/maps?q=${encodeURIComponent(placeName)}&output=embed`;
+      }
+    }
+
+    // Try to extract coordinates @lat,lng
+    const coordMatch = url.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
+    if (coordMatch) {
+      return `https://maps.google.com/maps?q=${coordMatch[1]},${coordMatch[2]}&output=embed`;
+    }
+
+    // Fallback: use generic query parameter with the encoded URL
+    return `https://maps.google.com/maps?q=${encodeURIComponent(url)}&output=embed`;
+  };
+
+  const embedSrc = buildEmbedSrc(mapLocationUrl);
+  const hasMap = !!mapLocationUrl;
 
   return (
-    <section className="py-32 bg-brand-cream/40 text-left relative overflow-hidden">
+    <section className="pt-12 pb-24 bg-brand-cream/40 text-left relative overflow-hidden">
       <LeafBG />
       <div className="max-w-7xl mx-auto px-4 relative z-10">
         <div className="bg-[#1E4620] rounded-[3.5rem] p-8 md:p-12 text-white relative overflow-hidden shadow-2xl border-4 border-white">
@@ -1021,46 +1090,50 @@ export const ContactsBlock = ({ data, formState, setFormState, formStatus, handl
               </p>
 
               <div className="space-y-4">
-                {/* WA */}
-                <div className="flex items-center gap-5 group">
-                  <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center bg-white/5 group-hover:bg-white group-hover:text-brand-green transition-all duration-300 shadow-md">
-                    <Phone className="w-5 h-5" />
+                {/* Phone numbers */}
+                {phones.map((ph, i) => (
+                  <div key={`phone-${i}`} className="flex items-center gap-5 group">
+                    <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center bg-white/5 group-hover:bg-white group-hover:text-brand-green transition-all duration-300 shadow-md">
+                      <Phone className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <div className="text-[9px] uppercase font-bold tracking-widest opacity-60 mb-0.5">WhatsApp Kami</div>
+                      <a href={`https://wa.me/${String(ph).replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="text-lg font-bold hover:text-brand-cream/80 transition-colors">{ph}</a>
+                    </div>
                   </div>
-                  <div>
-                    <div className="text-[9px] uppercase font-bold tracking-widest opacity-60 mb-0.5">WhatsApp Kami</div>
-                    <a href={`https://wa.me/${phone.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="text-lg font-bold hover:text-brand-cream/80 transition-colors">{phone}</a>
-                  </div>
-                </div>
+                ))}
 
-                {/* Email */}
-                {email && (
-                  <div className="flex items-center gap-5 group">
+                {/* Emails */}
+                {emails.map((em, i) => (
+                  <div key={`email-${i}`} className="flex items-center gap-5 group">
                     <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center bg-white/5 group-hover:bg-white group-hover:text-brand-green transition-all duration-300 shadow-md">
                       <Mail className="w-5 h-5" />
                     </div>
                     <div>
                       <div className="text-[9px] uppercase font-bold tracking-widest opacity-60 mb-0.5">Email Kami</div>
-                      <a href={`mailto:${email}`} className="text-lg font-bold hover:text-brand-cream/80 transition-colors">{email}</a>
+                      <a href={`mailto:${em}`} className="text-lg font-bold hover:text-brand-cream/80 transition-colors">{em}</a>
                     </div>
                   </div>
-                )}
+                ))}
 
-                {/* Map */}
-                <div className="flex items-center gap-5 group">
-                  <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center bg-white/5 group-hover:bg-white group-hover:text-brand-green transition-all duration-300 shadow-md">
-                    <MapPin className="w-5 h-5" />
+                {/* Addresses */}
+                {addresses.map((addr, i) => (
+                  <div key={`addr-${i}`} className="flex items-center gap-5 group">
+                    <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center bg-white/5 group-hover:bg-white group-hover:text-brand-green transition-all duration-300 shadow-md">
+                      <MapPin className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <div className="text-[9px] uppercase font-bold tracking-widest opacity-60 mb-0.5">Lokasi Kami</div>
+                      {mapLocationUrl ? (
+                        <a href={mapLocationUrl} target="_blank" rel="noopener noreferrer" className="text-base font-bold hover:text-brand-cream/80 transition-colors underline leading-relaxed">{addr}</a>
+                      ) : (
+                        <div className="text-base font-bold leading-relaxed">{addr}</div>
+                      )}
+                    </div>
                   </div>
-                  <div>
-                    <div className="text-[9px] uppercase font-bold tracking-widest opacity-60 mb-0.5">Lokasi Kami</div>
-                    {mapLocationUrl ? (
-                      <a href={mapLocationUrl} target="_blank" rel="noopener noreferrer" className="text-lg font-bold hover:text-brand-cream/80 transition-colors underline leading-relaxed">{address}</a>
-                    ) : (
-                      <div className="text-lg font-bold leading-relaxed">{address}</div>
-                    )}
-                  </div>
-                </div>
+                ))}
 
-                {/* Clock */}
+                {/* Working Hours */}
                 {workingHours && (
                   <div className="flex items-center gap-5 group">
                     <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center bg-white/5 group-hover:bg-white group-hover:text-brand-green transition-all duration-300 shadow-md">
@@ -1072,74 +1145,80 @@ export const ContactsBlock = ({ data, formState, setFormState, formStatus, handl
                     </div>
                   </div>
                 )}
+
+                {/* Social Links */}
+                {socialLinks.length > 0 && socialLinks.map((sl, i) => {
+                  let displayUrl = sl.url;
+                  if (sl.url.includes("instagram.com/")) {
+                    displayUrl = "@" + sl.url.split("instagram.com/")[1].replace(/\/$/, '');
+                  } else {
+                    displayUrl = sl.url.replace(/^https?:\/\//, '').replace(/\/$/, '');
+                  }
+
+                  return (
+                    <div key={`social-${i}`} className="flex items-center gap-5 group">
+                      <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center bg-white/5 group-hover:bg-white group-hover:text-brand-green transition-all duration-300 shadow-md">
+                        {getSocialIcon(sl.name)}
+                      </div>
+                      <div>
+                        <div className="text-[9px] uppercase font-bold tracking-widest opacity-60 mb-0.5">{sl.name}</div>
+                        <a
+                          href={sl.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-base font-bold hover:text-brand-cream/80 transition-colors flex items-center gap-1.5"
+                        >
+                          {displayUrl}
+                          <ExternalLink className="w-3.5 h-3.5 opacity-70" />
+                        </a>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
 
-            <div className="bg-[#fafaf6] rounded-[2rem] p-6 md:p-8 text-stone-800 shadow-2xl text-left border border-brand-olive/5">
-              <form className="space-y-5" onSubmit={handleContactSubmit}>
-                <div className="space-y-1.5">
-                  <label className="text-[10px] uppercase font-extrabold tracking-[0.2em] text-[#C28C00] block">Nama Lengkap</label>
-                  <input
-                    type="text"
-                    required
-                    className="w-full px-4 py-3 bg-white border border-stone-200 focus:border-[#1E4620] focus:ring-4 focus:ring-[#1E4620]/10 outline-none rounded-xl transition-all text-sm"
-                    placeholder="Masukkan nama Anda..."
-                    value={formState.name}
-                    onChange={(e) => setFormState({ ...formState, name: e.target.value })}
+            {/* Right Column: Map Embed from CMS map_location_url */}
+            <div className="relative w-full h-[300px] lg:h-auto min-h-[350px] rounded-[2rem] overflow-hidden border-2 border-white/10 shadow-2xl bg-brand-cream/5 flex items-center justify-center">
+              {hasMap ? (
+                embedSrc ? (
+                  <iframe
+                    src={embedSrc}
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="Peta Lokasi KWT Melati Sorgum"
+                    className="absolute inset-0 w-full h-full"
                   />
+                ) : (
+                  <a
+                    href={mapLocationUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex flex-col items-center justify-center gap-6 w-full h-full text-center p-8 hover:bg-white/5 transition-colors group"
+                  >
+                    <div className="w-20 h-20 rounded-full bg-white/5 border border-white/20 flex items-center justify-center group-hover:scale-110 group-hover:bg-brand-cream group-hover:border-brand-cream transition-all duration-300 shadow-xl">
+                      <MapPin className="w-10 h-10 text-brand-cream group-hover:text-brand-green transition-colors" />
+                    </div>
+                    <div>
+                      <div className="text-white font-serif italic font-bold text-2xl mb-2">Lihat di Google Maps</div>
+                      <p className="text-white/60 text-sm max-w-xs mx-auto">Klik tombol di bawah ini untuk membuka lokasi kami di aplikasi Google Maps.</p>
+                    </div>
+                    <div className="mt-2 px-8 py-3 bg-transparent border border-brand-cream rounded-full text-brand-cream text-xs font-bold uppercase tracking-[0.2em] group-hover:bg-brand-cream group-hover:text-brand-green transition-all shadow-lg">
+                      Buka Peta &rarr;
+                    </div>
+                  </a>
+                )
+              ) : (
+                <div className="flex flex-col items-center justify-center gap-3 text-white/30 p-8 text-center">
+                  <MapPin className="w-10 h-10" />
+                  <p className="text-sm italic">Belum ada URL peta yang diset di CMS.</p>
                 </div>
-                <div className="space-y-1.5">
-                  <label className="text-[10px] uppercase font-extrabold tracking-[0.2em] text-[#C28C00] block">Nomor WhatsApp / Kontak</label>
-                  <input
-                    type="tel"
-                    required
-                    className="w-full px-4 py-3 bg-white border border-stone-200 focus:border-[#1E4620] focus:ring-4 focus:ring-[#1E4620]/10 outline-none rounded-xl transition-all text-sm"
-                    placeholder="+62..."
-                    value={formState.phone}
-                    onChange={(e) => setFormState({ ...formState, phone: e.target.value })}
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-[10px] uppercase font-extrabold tracking-[0.2em] text-[#C28C00] block">Pesan / Pesanan</label>
-                  <textarea
-                    required
-                    className="w-full px-4 py-3 bg-white border border-stone-200 focus:border-[#1E4620] focus:ring-4 focus:ring-[#1E4620]/10 outline-none rounded-xl transition-all h-28 resize-none text-sm"
-                    placeholder="Tuliskan pesan atau detail pesan kegiatan Anda..."
-                    value={formState.message}
-                    onChange={(e) => setFormState({ ...formState, message: e.target.value })}
-                  />
-                </div>
-
-                {formStatus.type && (
-                  <div className={`p-3 rounded-xl text-[10px] uppercase font-bold tracking-widest text-center ${
-                    formStatus.type === "success" ? "bg-green-50 text-green-700 border border-green-200" : "bg-red-50 text-red-700 border border-red-200"
-                  }`}>
-                    {formStatus.message}
-                  </div>
-                )}
-
-                <button
-                  type="submit"
-                  className="w-full py-3.5 bg-[#1E4620] hover:bg-brand-olive text-white rounded-xl font-bold uppercase text-[10px] tracking-[0.25em] shadow-lg shadow-[#1E4620]/15 transition-all duration-300 hover:scale-[1.01] active:scale-95"
-                >
-                  Kirim Pesan Sekarang
-                </button>
-              </form>
+              )}
             </div>
-          </div>
-          
-          {/* Google Maps Embed - Horizontal Banner */}
-          <div className="relative z-10 w-full h-[240px] md:h-[320px] mt-10 md:mt-12 rounded-[1.5rem] overflow-hidden border-2 border-white/20 shadow-inner bg-brand-cream/10">
-            <iframe 
-              src="https://maps.google.com/maps?q=-7.0191962,107.5889804&z=14&output=embed" 
-              width="100%" 
-              height="100%" 
-              style={{ border: 0 }} 
-              allowFullScreen 
-              loading="lazy" 
-              referrerPolicy="no-referrer-when-downgrade"
-              title="Peta Lokasi KWT Melati Sorgum"
-            />
           </div>
 
           <Leaf className="absolute -bottom-16 -left-16 w-60 h-60 text-white/5 rotate-45 pointer-events-none select-none" />
@@ -1584,44 +1663,46 @@ export const renderBlock = (
   // Normalize type by replacing hyphens with underscores
   const blockType = (block.type || "").replace(/-/g, "_");
 
-  switch (blockType) {
-    case "hero":
-      return <HeroBlock data={data} />;
-    case "profile_tabs":
-      return <ProfileTabsBlock data={data} />;
-    case "activity_slider":
-      return <ActivitySliderBlock data={data} />;
-    case "dynamic_post_feed":
-      return <DynamicPostFeedBlock data={data} allPosts={[...products, ...news]} />;
-    case "rich_text":
-      return <RichTextBlock data={data} />;
-    case "contacts":
-      return (
-        <ContactsBlock
-          data={data}
-          formState={formState}
-          setFormState={setFormState}
-          formStatus={formStatus}
-          handleContactSubmit={handleContactSubmit}
-        />
-      );
-    case "features":
-      return <FeaturesBlock data={data} />;
-    case "faq":
-      return <FAQBlock data={data} />;
-    case "testimonials":
-      return <TestimonialsBlock data={data} />;
-    case "partners":
-      return <PartnersBlock data={data} />;
-    case "team_members":
-      return <TeamMembersBlock data={data} />;
-    case "gallery":
-      return <GalleryBlock data={data} fallbackGallery={fallbackGallery} />;
-    case "cta":
-    case "cta_banner":
-      return <CTABlock data={data} />;
-    default:
-      console.warn("Unknown block type:", block.type);
-      return null;
+  try {
+    switch (blockType) {
+      case "hero":
+        return <HeroBlock data={data} />;
+      case "profile_tabs":
+        return <ProfileTabsBlock data={data} />;
+      case "activity_slider":
+        return <ActivitySliderBlock data={data} />;
+      case "dynamic_post_feed":
+        return <DynamicPostFeedBlock data={data} allPosts={[...products, ...news]} />;
+      case "rich_text":
+        return <RichTextBlock data={data} />;
+      case "contacts":
+        console.log("[ContactsBlock] Rendering with data:", JSON.stringify(data, null, 2));
+        return (
+          <ContactsBlock
+            data={data}
+          />
+        );
+      case "features":
+        return <FeaturesBlock data={data} />;
+      case "faq":
+        return <FAQBlock data={data} />;
+      case "testimonials":
+        return <TestimonialsBlock data={data} />;
+      case "partners":
+        return <PartnersBlock data={data} />;
+      case "team_members":
+        return <TeamMembersBlock data={data} />;
+      case "gallery":
+        return <GalleryBlock data={data} fallbackGallery={fallbackGallery} />;
+      case "cta":
+      case "cta_banner":
+        return <CTABlock data={data} />;
+      default:
+        console.warn("Unknown block type:", block.type);
+        return null;
+    }
+  } catch (err) {
+    console.error(`[renderBlock] Error rendering block type "${blockType}":`, err);
+    return null;
   }
 };

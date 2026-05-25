@@ -319,7 +319,7 @@ export default function App() {
           </Routes>
         </main>
 
-        <Footer settings={settings} />
+        <Footer settings={settings} cmsPages={cmsPages} />
       </div>
     </Router>
   );

@@ -5,9 +5,53 @@ import { Settings } from "../types";
 
 interface FooterProps {
   settings: Settings | null;
+  cmsPages?: any[];
 }
 
-export default function Footer({ settings }: FooterProps) {
+export default function Footer({ settings, cmsPages = [] }: FooterProps) {
+  // Find contact block data from CMS
+  const contactPage = cmsPages?.find((p: any) => p.slug === "hubungi-kami");
+  const contactBlock = Array.isArray(contactPage?.content) 
+    ? contactPage.content.find((b: any) => (b.type || "").replace(/-/g, "_") === "contacts")
+    : null;
+  const contactData = contactBlock?.data || {};
+
+  const phones: string[] = (() => {
+    if (Array.isArray(contactData.phone_numbers) && contactData.phone_numbers.length > 0) return contactData.phone_numbers;
+    if (contactData.phone) return [contactData.phone];
+    return ["+62 812-3456-7890"]; // Fallback
+  })();
+  
+  const emails: string[] = (() => {
+    if (Array.isArray(contactData.emails) && contactData.emails.length > 0) return contactData.emails;
+    if (contactData.email) return [contactData.email];
+    return ["kwtsorgum@gmail.com"]; // Fallback
+  })();
+
+  const addresses: string[] = (() => {
+    if (Array.isArray(contactData.addresses) && contactData.addresses.length > 0) return contactData.addresses;
+    if (contactData.address) return [contactData.address];
+    return ["Desa Bojongmanggu, Kec. Pameungpeuk, Kabupaten Bandung, Jawa Barat"]; // Fallback
+  })();
+  
+  const socialLinks: { name: string; url: string }[] = (() => {
+    if (!Array.isArray(contactData.social_links)) return [];
+    return contactData.social_links
+      .filter((sl: any) => sl && (sl.url || sl.link))
+      .map((sl: any) => ({
+        name: sl.name || sl.platform || sl.label || "Link",
+        url: sl.url || sl.link || ""
+      }));
+  })();
+
+  const getSocialIcon = (name: string) => {
+    if (!name) return <Globe className="w-5 h-5 text-brand-cream" />;
+    const n = name.toLowerCase();
+    if (n.includes("instagram")) return <Instagram className="w-5 h-5 text-brand-cream" />;
+    if (n.includes("facebook")) return <Globe className="w-5 h-5 text-brand-cream" />;
+    return <Globe className="w-5 h-5 text-brand-cream" />;
+  };
+
   return (
     <footer className="py-20 bg-[#172b10] text-brand-cream/80 border-t border-brand-green/10 relative overflow-hidden">
       {/* Decorative background glows */}
@@ -20,36 +64,13 @@ export default function Footer({ settings }: FooterProps) {
           {/* Column 1: Brand Profile */}
           <div className="flex flex-col gap-5 text-left">
             <Link to="/" className="flex items-center gap-3 group">
-              <div className="w-10 h-10 bg-brand-cream flex items-center justify-center rounded-full overflow-hidden shadow-lg shadow-black/10">
-                <img src="/logo_kwt_baru.jpeg" alt="Logo KWT Melati" className="w-full h-full object-cover" />
-              </div>
               <span className="font-serif text-3xl font-bold tracking-tight text-white italic">
-                {settings?.site_name || "Melati Sorgum"}
+                {settings?.site_name || "KWT Melati Sorgum"}
               </span>
             </Link>
             <p className="text-brand-cream/70 text-sm font-light leading-relaxed">
               Kelompok Wanita Tani (KWT) Melati di Desa Bojongmanggu berdedikasi mengolah sorgum melalui kerja sama dan kegiatan edukatif demi kemandirian pangan lokal.
             </p>
-            <div className="flex gap-3 mt-2">
-              <a 
-                href="https://instagram.com" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                aria-label="Instagram" 
-                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-brand-clay hover:text-white hover:border-brand-clay transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg"
-              >
-                <Instagram className="w-5 h-5 text-brand-cream" />
-              </a>
-              <a 
-                href="https://facebook.com" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                aria-label="Facebook" 
-                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-brand-clay hover:text-white hover:border-brand-clay transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg"
-              >
-                <Globe className="w-5 h-5 text-brand-cream" />
-              </a>
-            </div>
           </div>
 
           {/* Column 2: Quick Navigation */}
@@ -86,33 +107,51 @@ export default function Footer({ settings }: FooterProps) {
           {/* Column 3: Contact Info */}
           <div className="text-left">
             <h4 className="text-white font-serif text-lg font-bold mb-6 italic underline decoration-brand-clay/30 underline-offset-8">Hubungi Kami</h4>
-            <ul className="space-y-4 text-sm font-light text-brand-cream/70">
-              <li className="flex gap-3 items-start">
-                <MapPin className="w-5 h-5 text-brand-clay shrink-0 mt-0.5" />
-                <span className="leading-relaxed">Desa Bojongmanggu, Kec. Pameungpeuk, Kabupaten Bandung, Jawa Barat</span>
-              </li>
-              <li className="flex gap-3 items-center">
-                <Phone className="w-5 h-5 text-brand-clay shrink-0" />
-                <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">+62 812-3456-7890</a>
-              </li>
-              <li className="flex gap-3 items-center">
-                <Mail className="w-5 h-5 text-brand-clay shrink-0" />
-                <a href="mailto:kwtsorgum@gmail.com" className="hover:text-white transition-colors">kwtsorgum@gmail.com</a>
-              </li>
+            <ul className="space-y-4 text-sm font-light text-brand-cream/70 mb-6">
+              {addresses.map((addr, i) => (
+                <li key={`footer-addr-${i}`} className="flex gap-3 items-start">
+                  <MapPin className="w-5 h-5 text-brand-clay shrink-0 mt-0.5" />
+                  <span className="leading-relaxed">{addr}</span>
+                </li>
+              ))}
+              {phones.map((ph, i) => (
+                <li key={`footer-ph-${i}`} className="flex gap-3 items-center">
+                  <Phone className="w-5 h-5 text-brand-clay shrink-0" />
+                  <a href={`https://wa.me/${String(ph).replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">{ph}</a>
+                </li>
+              ))}
+              {emails.map((em, i) => (
+                <li key={`footer-em-${i}`} className="flex gap-3 items-center">
+                  <Mail className="w-5 h-5 text-brand-clay shrink-0" />
+                  <a href={`mailto:${em}`} className="hover:text-white transition-colors">{em}</a>
+                </li>
+              ))}
             </ul>
             
-            {/* Small Map Embed in Footer */}
-            <div className="mt-6 w-full h-32 rounded-xl overflow-hidden border border-white/10 shadow-lg">
-              <iframe 
-                src="https://maps.google.com/maps?q=-7.0191962,107.5889804&z=13&output=embed" 
-                width="100%" 
-                height="100%" 
-                style={{ border: 0 }} 
-                allowFullScreen 
-                loading="lazy" 
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Peta KWT Melati Sorgum Mini"
-              />
+            <div className="flex gap-3">
+              {socialLinks.length > 0 ? (
+                socialLinks.map((sl, i) => (
+                  <a 
+                    key={`footer-social-${i}`}
+                    href={sl.url} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    aria-label={sl.name} 
+                    className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-brand-clay hover:text-white hover:border-brand-clay transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg"
+                  >
+                    {getSocialIcon(sl.name)}
+                  </a>
+                ))
+              ) : (
+                <>
+                  <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-brand-clay hover:text-white hover:border-brand-clay transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+                    <Instagram className="w-5 h-5 text-brand-cream" />
+                  </a>
+                  <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-brand-clay hover:text-white hover:border-brand-clay transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+                    <Globe className="w-5 h-5 text-brand-cream" />
+                  </a>
+                </>
+              )}
             </div>
           </div>
 
