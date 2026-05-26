@@ -304,29 +304,29 @@ export const ProfileTabsBlock = ({ data }: { data: any }) => {
 
   if (!image) {
     return (
-      <section id="profil" className="py-16 md:py-20 bg-[#fafaf6] relative text-center overflow-hidden">
+      <section id="profil" className="py-24 md:py-32 bg-[#fafaf6] relative text-center overflow-hidden">
         <LeafBG />
         {/* Organic background shapes */}
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-30">
-           <div className="absolute top-1/4 -left-32 w-80 h-80 bg-brand-green/10 rounded-full blur-[100px]" />
-           <div className="absolute bottom-1/4 -right-32 w-80 h-80 bg-brand-clay/10 rounded-full blur-[100px]" />
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-40">
+           <div className="absolute top-1/4 -left-32 w-96 h-96 bg-brand-green/10 rounded-full blur-[100px]" />
+           <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-brand-clay/10 rounded-full blur-[100px]" />
         </div>
         
         <div className="max-w-4xl mx-auto px-4 relative z-10">
-          <span className="inline-block text-brand-clay font-bold uppercase tracking-[0.2em] text-[10px] md:text-xs mb-3 bg-brand-clay/10 px-4 py-1.5 rounded-full">
+          <span className="inline-block text-brand-clay font-bold uppercase tracking-[0.2em] text-xs md:text-sm mb-4 bg-brand-clay/10 px-5 py-2 rounded-full">
             {subtitle}
           </span>
-          <h3 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-brand-green mb-6 leading-tight">
+          <h3 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-brand-green mb-8 leading-tight">
             {title}
           </h3>
-          {data.description && <p className="text-sm md:text-base text-stone-600 mb-8 leading-relaxed max-w-2xl mx-auto">{data.description}</p>}
+          {data.description && <p className="text-base md:text-lg text-stone-600 mb-10 leading-loose max-w-2xl mx-auto">{data.description}</p>}
           
-          <div className="inline-flex max-w-full bg-stone-100/80 p-1 rounded-xl mb-6 overflow-x-auto gap-1 border border-stone-200/50 scrollbar-none shadow-sm">
+          <div className="inline-flex max-w-full bg-stone-100/80 p-1.5 rounded-2xl mb-8 overflow-x-auto gap-2 border border-stone-200/50 scrollbar-none shadow-sm">
             {processedTabs.map((tab: any, idx: number) => (
               <button
                 key={idx}
                 onClick={() => setActiveTab(idx)}
-                className={`relative py-2 px-4 font-sans text-xs md:text-sm font-medium transition-all whitespace-nowrap rounded-lg z-10 flex items-center gap-1.5 group ${
+                className={`relative py-3 px-6 font-sans text-sm md:text-base font-medium transition-all whitespace-nowrap rounded-xl z-10 flex items-center gap-2 group ${
                   activeTab === idx
                     ? 'text-brand-green'
                     : 'text-stone-500 hover:text-stone-800 hover:bg-stone-200/50'
@@ -335,17 +335,17 @@ export const ProfileTabsBlock = ({ data }: { data: any }) => {
                 {activeTab === idx && (
                   <motion.div
                     layoutId="activeProfileTabNoImg"
-                    className="absolute inset-0 bg-white rounded-lg -z-10 shadow-sm border border-stone-100"
+                    className="absolute inset-0 bg-white rounded-xl -z-10 shadow-sm border border-stone-100"
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
-                <ChevronRight className={`w-3.5 h-3.5 transition-transform ${activeTab === idx ? 'opacity-100 text-brand-green' : 'opacity-40 group-hover:opacity-70'}`} />
+                <ChevronRight className={`w-4 h-4 transition-transform ${activeTab === idx ? 'opacity-100 text-brand-green' : 'opacity-40 group-hover:opacity-70'}`} />
                 {tab.title || tab.label || `Tab ${idx + 1}`}
               </button>
             ))}
           </div>
 
-          <div className="p-6 md:p-8 bg-white rounded-[1.5rem] border border-stone-100 shadow-2xl shadow-stone-200/50 min-h-[120px] relative overflow-hidden text-left max-w-3xl mx-auto">
+          <div className="p-8 md:p-10 bg-white rounded-3xl border border-stone-100 shadow-2xl shadow-stone-200/50 min-h-[140px] relative overflow-hidden text-left max-w-3xl mx-auto">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTab}
@@ -353,7 +353,7 @@ export const ProfileTabsBlock = ({ data }: { data: any }) => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -12 }}
                 transition={{ duration: 0.3 }}
-                className="text-stone-600 font-sans prose prose-stone max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0 text-sm md:text-base leading-relaxed"
+                className="text-stone-600 font-sans prose prose-stone max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0 text-base md:text-lg leading-loose"
                 dangerouslySetInnerHTML={{ __html: processedTabs[activeTab]?.content || processedTabs[activeTab]?.description || "Konten tidak tersedia." }}
               />
             </AnimatePresence>
@@ -364,19 +364,19 @@ export const ProfileTabsBlock = ({ data }: { data: any }) => {
   }
 
   return (
-    <section id="profil" className="py-16 md:py-20 bg-[#fafaf6] relative text-left overflow-hidden">
+    <section id="profil" className="py-24 md:py-32 bg-[#fafaf6] relative text-left overflow-hidden">
       <LeafBG />
       {/* Organic background shapes */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-30 z-0">
-         <div className="absolute top-1/4 -left-32 w-96 h-96 bg-brand-green/10 rounded-full blur-[100px]" />
-         <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-brand-clay/10 rounded-full blur-[100px]" />
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-40 z-0">
+         <div className="absolute top-1/4 -left-32 w-[500px] h-[500px] bg-brand-green/10 rounded-full blur-[120px]" />
+         <div className="absolute bottom-1/4 -right-32 w-[500px] h-[500px] bg-brand-clay/10 rounded-full blur-[120px]" />
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 grid lg:grid-cols-2 gap-10 lg:gap-14 items-center relative z-10">
+      <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-16 lg:gap-20 items-center relative z-10">
         {/* Image / Card */}
-        <div className="relative group mx-auto w-full max-w-sm lg:max-w-md">
+        <div className="relative group mx-auto w-full max-w-lg">
           {/* Subtle Outer Glow */}
-          <div className="absolute -inset-3 bg-brand-green/5 rounded-[2rem] blur-lg transition-transform duration-700 group-hover:scale-105" />
+          <div className="absolute -inset-4 bg-brand-green/5 rounded-[2.5rem] blur-xl transition-transform duration-700 group-hover:scale-105" />
           
           <div className="relative aspect-[4/5] md:aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl shadow-brand-green/20 border border-white/50 z-10">
             <motion.img
@@ -393,37 +393,37 @@ export const ProfileTabsBlock = ({ data }: { data: any }) => {
           </div>
           
           {/* Glassmorphism Floating Badge */}
-          <div className="absolute -bottom-5 -right-4 lg:-right-6 backdrop-blur-md bg-white/30 border border-white/50 shadow-2xl rounded-3xl p-4 flex flex-col justify-center max-w-[150px] z-20 transition-transform duration-500 hover:-translate-y-2 group-hover:shadow-brand-green/30">
-            <div className="w-8 h-8 rounded-[12px] bg-white/80 shadow-sm flex items-center justify-center mb-2">
-              <Leaf className="w-4 h-4 text-brand-green" />
+          <div className="absolute -bottom-6 -right-6 lg:-right-8 backdrop-blur-md bg-white/30 border border-white/50 shadow-2xl rounded-3xl p-5 md:p-6 flex flex-col justify-center max-w-[180px] z-20 transition-transform duration-500 hover:-translate-y-2 group-hover:shadow-brand-green/30">
+            <div className="w-10 h-10 rounded-2xl bg-white/80 shadow-sm flex items-center justify-center mb-3">
+              <Leaf className="w-5 h-5 text-brand-green" />
             </div>
-            <h4 className="text-white drop-shadow-md font-serif text-2xl font-bold mb-0.5 leading-none">
+            <h4 className="text-white drop-shadow-md font-serif text-3xl font-bold mb-1 leading-none">
               {badgeTitle}
             </h4>
-            <p className="text-[8px] md:text-[9px] uppercase font-bold tracking-[0.15em] text-white/90 drop-shadow-sm leading-relaxed mt-1">
+            <p className="text-[9px] md:text-[10px] uppercase font-bold tracking-[0.15em] text-white/90 drop-shadow-sm leading-relaxed mt-1">
               {badgeSubtitle}
             </p>
           </div>
         </div>
 
         {/* Text / Content */}
-        <div className="lg:pr-4">
-          <span className="inline-block text-brand-clay font-bold uppercase tracking-[0.2em] text-[10px] md:text-xs mb-3 bg-brand-clay/10 px-4 py-1.5 rounded-full">
+        <div className="lg:pr-8">
+          <span className="inline-block text-brand-clay font-bold uppercase tracking-[0.2em] text-xs md:text-sm mb-4 bg-brand-clay/10 px-5 py-2 rounded-full">
             {subtitle}
           </span>
-          <h3 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-brand-green mb-6 leading-tight">
+          <h3 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-brand-green mb-8 leading-tight">
             {title}
           </h3>
-          <div className="space-y-6">
-            {data.description && <p className="text-sm md:text-base text-stone-600 leading-relaxed">{data.description}</p>}
+          <div className="space-y-8">
+            {data.description && <p className="text-base md:text-lg text-stone-600 leading-loose">{data.description}</p>}
 
             {/* Modern Interactive Tab Bar */}
-            <div className="inline-flex max-w-full bg-stone-100/80 p-1 rounded-xl mb-1 overflow-x-auto gap-1 border border-stone-200/50 scrollbar-none shadow-sm">
+            <div className="inline-flex max-w-full bg-stone-100/80 p-1.5 rounded-2xl mb-2 overflow-x-auto gap-2 border border-stone-200/50 scrollbar-none shadow-sm">
               {processedTabs.map((tab: any, idx: number) => (
                 <button
                    key={idx}
                    onClick={() => setActiveTab(idx)}
-                   className={`relative py-2 px-4 font-sans text-xs md:text-sm font-medium transition-all whitespace-nowrap rounded-lg z-10 flex items-center gap-1.5 group ${
+                   className={`relative py-3 px-6 font-sans text-sm md:text-base font-medium transition-all whitespace-nowrap rounded-xl z-10 flex items-center gap-2 group ${
                     activeTab === idx
                       ? 'text-brand-green'
                       : 'text-stone-500 hover:text-stone-800 hover:bg-stone-200/50'
@@ -432,26 +432,26 @@ export const ProfileTabsBlock = ({ data }: { data: any }) => {
                   {activeTab === idx && (
                     <motion.div
                       layoutId="activeProfileTab"
-                      className="absolute inset-0 bg-white rounded-lg -z-10 shadow-sm border border-stone-100"
+                      className="absolute inset-0 bg-white rounded-xl -z-10 shadow-sm border border-stone-100"
                       transition={{ type: "spring", stiffness: 400, damping: 30 }}
                     />
                   )}
-                  <ChevronRight className={`w-3.5 h-3.5 transition-transform ${activeTab === idx ? 'opacity-100 text-brand-green' : 'opacity-40 group-hover:opacity-70'}`} />
+                  <ChevronRight className={`w-4 h-4 transition-transform ${activeTab === idx ? 'opacity-100 text-brand-green' : 'opacity-40 group-hover:opacity-70'}`} />
                   {tab.title || tab.label || `Tab ${idx + 1}`}
                 </button>
               ))}
             </div>
 
             {/* Tab Content Area */}
-            <div className="p-6 md:p-8 bg-white rounded-[1.5rem] border border-stone-100 shadow-2xl shadow-stone-200/50 min-h-[120px] relative overflow-hidden">
+            <div className="p-8 md:p-10 bg-white rounded-3xl border border-stone-100 shadow-2xl shadow-stone-200/50 min-h-[160px] relative overflow-hidden">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeTab}
-                  initial={{ opacity: 0, y: 12 }}
+                  initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -12 }}
+                  exit={{ opacity: 0, y: -15 }}
                   transition={{ duration: 0.3 }}
-                  className="text-stone-600 font-sans prose prose-stone max-w-none [&>p]:mb-3 [&>p:last-child]:mb-0 text-sm md:text-base leading-relaxed"
+                  className="text-stone-600 font-sans prose prose-stone max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0 text-base md:text-lg leading-loose"
                   dangerouslySetInnerHTML={{ __html: processedTabs[activeTab]?.content || processedTabs[activeTab]?.description || "Konten tidak tersedia." }}
                 />
               </AnimatePresence>
