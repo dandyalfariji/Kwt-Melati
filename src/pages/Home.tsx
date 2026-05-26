@@ -25,8 +25,8 @@ import { iconMap, ProfileTabsBlock } from "../components/Blocks";
 const staticProfileData = {
   title: "Melati Sorgum: Dedikasi Sang Ibu Tani",
   subtitle: "Profil Kelompok",
-  badge_title: "100%",
-  badge_subtitle: "Organik & Alami Tanpa Bahan Pengawet",
+  badge_title: "KWT",
+  badge_subtitle: "Pemberdayaan Perempuan Tani",
   tabs: [
     {
       title: "Tentang Kami",

@@ -246,8 +246,8 @@ export const HeroBlock = ({ data }: { data: any }) => {
 export const ProfileTabsBlock = ({ data }: { data: any }) => {
   const title = data.title || "Melati Sorgum: Dedikasi Sang Ibu Tani";
   const subtitle = data.subtitle || "Profil Kelompok";
-  const badgeTitle = data.badge_title || data.badgeTitle || "100%";
-  const badgeSubtitle = data.badge_subtitle || data.badgeSubtitle || "Organik & Alami Tanpa Bahan Pengawet";
+  const badgeTitle = data.badge_title || data.badgeTitle || "KWT";
+  const badgeSubtitle = data.badge_subtitle || data.badgeSubtitle || "Pemberdayaan Perempuan Tani";
 
   const rawTabs = data.tabs || data.items || [];
   const tabsWithFallback = rawTabs.length > 0 ? rawTabs : [
