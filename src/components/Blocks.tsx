@@ -304,56 +304,50 @@ export const ProfileTabsBlock = ({ data }: { data: any }) => {
 
   if (!image) {
     return (
-      <section id="profil" className="py-24 md:py-32 bg-[#fafaf6] relative text-center overflow-hidden">
+      <section id="profil" className="py-16 md:py-20 bg-white relative text-center overflow-hidden">
         <LeafBG />
-        {/* Organic background shapes */}
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-40">
-           <div className="absolute top-1/4 -left-32 w-96 h-96 bg-brand-green/10 rounded-full blur-[100px]" />
-           <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-brand-clay/10 rounded-full blur-[100px]" />
-        </div>
-        
         <div className="max-w-4xl mx-auto px-4 relative z-10">
-          <span className="inline-block text-brand-clay font-bold uppercase tracking-[0.2em] text-xs md:text-sm mb-4 bg-brand-clay/10 px-5 py-2 rounded-full">
+          <span className="inline-block text-brand-clay font-bold uppercase tracking-[0.3em] text-[10px] mb-3 bg-brand-clay/10 px-3 py-1 rounded-full italic">
             {subtitle}
           </span>
-          <h3 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-brand-green mb-8 leading-tight">
+          <h3 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-brand-green mb-6 leading-tight">
             {title}
           </h3>
-          {data.description && <p className="text-base md:text-lg text-stone-600 mb-10 leading-loose max-w-2xl mx-auto">{data.description}</p>}
+          {data.description && <p className="text-sm md:text-base text-stone-600 mb-8">{data.description}</p>}
           
-          <div className="inline-flex max-w-full bg-stone-100/80 p-1.5 rounded-2xl mb-8 overflow-x-auto gap-2 border border-stone-200/50 scrollbar-none shadow-sm">
+          <div className="inline-flex max-w-full bg-[#f2f2eb] p-1 rounded-xl mb-6 overflow-x-auto gap-1 border border-brand-olive/10 scrollbar-none">
             {processedTabs.map((tab: any, idx: number) => (
               <button
                 key={idx}
                 onClick={() => setActiveTab(idx)}
-                className={`relative py-3 px-6 font-sans text-sm md:text-base font-medium transition-all whitespace-nowrap rounded-xl z-10 flex items-center gap-2 group ${
+                className={`relative py-2.5 px-4 font-serif text-sm italic font-bold transition-all whitespace-nowrap rounded-lg z-10 flex items-center gap-1.5 ${
                   activeTab === idx
-                    ? 'text-brand-green'
-                    : 'text-stone-500 hover:text-stone-800 hover:bg-stone-200/50'
+                    ? 'text-white'
+                    : 'text-brand-olive/75 hover:text-brand-green hover:bg-brand-olive/5'
                 }`}
               >
                 {activeTab === idx && (
                   <motion.div
                     layoutId="activeProfileTabNoImg"
-                    className="absolute inset-0 bg-white rounded-xl -z-10 shadow-sm border border-stone-100"
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    className="absolute inset-0 bg-brand-green rounded-lg -z-10 shadow-md shadow-brand-green/15"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
                 )}
-                <ChevronRight className={`w-4 h-4 transition-transform ${activeTab === idx ? 'opacity-100 text-brand-green' : 'opacity-40 group-hover:opacity-70'}`} />
+                <span className="w-1.5 h-1.5 rounded-full bg-current opacity-60" />
                 {tab.title || tab.label || `Tab ${idx + 1}`}
               </button>
             ))}
           </div>
 
-          <div className="p-8 md:p-10 bg-white rounded-3xl border border-stone-100 shadow-2xl shadow-stone-200/50 min-h-[140px] relative overflow-hidden text-left max-w-3xl mx-auto">
+          <div className="p-6 bg-brand-cream/20 rounded-[1.5rem] border border-brand-olive/10 min-h-[140px] relative overflow-hidden shadow-inner text-left max-w-2xl mx-auto">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTab}
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.3 }}
-                className="text-stone-600 font-sans prose prose-stone max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0 text-base md:text-lg leading-loose"
+                transition={{ duration: 0.25 }}
+                className="text-stone-700 font-light prose prose-stone max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0 text-sm md:text-base leading-relaxed"
                 dangerouslySetInnerHTML={{ __html: processedTabs[activeTab]?.content || processedTabs[activeTab]?.description || "Konten tidak tersedia." }}
               />
             </AnimatePresence>
@@ -364,94 +358,88 @@ export const ProfileTabsBlock = ({ data }: { data: any }) => {
   }
 
   return (
-    <section id="profil" className="py-24 md:py-32 bg-[#fafaf6] relative text-left overflow-hidden">
+    <section id="profil" className="py-16 md:py-20 bg-white relative text-left overflow-hidden">
       <LeafBG />
-      {/* Organic background shapes */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-40 z-0">
-         <div className="absolute top-1/4 -left-32 w-[500px] h-[500px] bg-brand-green/10 rounded-full blur-[120px]" />
-         <div className="absolute bottom-1/4 -right-32 w-[500px] h-[500px] bg-brand-clay/10 rounded-full blur-[120px]" />
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-16 lg:gap-20 items-center relative z-10">
+      <div className="max-w-6xl mx-auto px-4 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center relative z-10">
         {/* Image / Card */}
-        <div className="relative group mx-auto w-full max-w-lg">
-          {/* Subtle Outer Glow */}
-          <div className="absolute -inset-4 bg-brand-green/5 rounded-[2.5rem] blur-xl transition-transform duration-700 group-hover:scale-105" />
+        <div className="relative group max-w-sm mx-auto lg:max-w-md w-full">
+          {/* Clay Offset Frames */}
+          <div className="absolute -inset-3 bg-brand-clay/10 rounded-[2rem] -rotate-3 transition-transform duration-500 group-hover:rotate-0 group-hover:scale-[1.02]" />
+          <div className="absolute -inset-1.5 bg-brand-olive/10 rounded-[2rem] rotate-2 transition-transform duration-500 group-hover:rotate-0" />
           
-          <div className="relative aspect-[4/5] md:aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl shadow-brand-green/20 border border-white/50 z-10">
+          <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-xl border-4 border-white bg-brand-cream/50 z-10">
             <motion.img
               whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
+              transition={{ duration: 0.6 }}
               src={image}
               alt={title}
               referrerPolicy="no-referrer"
               crossOrigin="anonymous"
-              className="w-full h-full object-cover grayscale-[0.1] hover:grayscale-0 transition-all duration-700"
+              className="w-full h-full object-cover grayscale-[0.05] hover:grayscale-0 transition-all duration-500"
             />
-            {/* Cinematic Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-stone-900/60 via-stone-900/10 to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-stone-950/20 via-transparent to-transparent pointer-events-none" />
           </div>
           
-          {/* Glassmorphism Floating Badge */}
-          <div className="absolute -bottom-6 -right-6 lg:-right-8 backdrop-blur-md bg-white/30 border border-white/50 shadow-2xl rounded-3xl p-5 md:p-6 flex flex-col justify-center max-w-[180px] z-20 transition-transform duration-500 hover:-translate-y-2 group-hover:shadow-brand-green/30">
-            <div className="w-10 h-10 rounded-2xl bg-white/80 shadow-sm flex items-center justify-center mb-3">
-              <Leaf className="w-5 h-5 text-brand-green" />
-            </div>
-            <h4 className="text-white drop-shadow-md font-serif text-3xl font-bold mb-1 leading-none">
+          {/* Floating Badge */}
+          <div className="absolute -bottom-4 -right-4 bg-brand-green text-brand-cream rounded-[1.5rem] p-4 border-2 border-white shadow-xl flex flex-col justify-center max-w-[150px] z-20 hover:scale-105 transition-transform duration-300">
+            <span className="w-6 h-6 rounded-full bg-brand-cream/15 flex items-center justify-center mb-1.5 animate-float">
+              <Leaf className="w-3 h-3 text-brand-cream" />
+            </span>
+            <h4 className="text-white font-serif text-2xl font-bold italic mb-1 leading-none">
               {badgeTitle}
             </h4>
-            <p className="text-[9px] md:text-[10px] uppercase font-bold tracking-[0.15em] text-white/90 drop-shadow-sm leading-relaxed mt-1">
+            <p className="text-[8px] uppercase font-bold tracking-[0.1em] text-brand-cream/80 leading-normal">
               {badgeSubtitle}
             </p>
           </div>
         </div>
 
         {/* Text / Content */}
-        <div className="lg:pr-8">
-          <span className="inline-block text-brand-clay font-bold uppercase tracking-[0.2em] text-xs md:text-sm mb-4 bg-brand-clay/10 px-5 py-2 rounded-full">
+        <div>
+          <span className="inline-block text-brand-clay font-bold uppercase tracking-[0.3em] text-[10px] mb-3 bg-brand-clay/10 px-3 py-1 rounded-full italic">
             {subtitle}
           </span>
-          <h3 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-brand-green mb-8 leading-tight">
+          <h3 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-brand-green mb-6 leading-tight">
             {title}
           </h3>
-          <div className="space-y-8">
-            {data.description && <p className="text-base md:text-lg text-stone-600 leading-loose">{data.description}</p>}
+          <div className="space-y-6 text-stone-600 leading-relaxed font-light">
+            {data.description && <p className="text-sm md:text-base text-stone-600">{data.description}</p>}
 
-            {/* Modern Interactive Tab Bar */}
-            <div className="inline-flex max-w-full bg-stone-100/80 p-1.5 rounded-2xl mb-2 overflow-x-auto gap-2 border border-stone-200/50 scrollbar-none shadow-sm">
+            {/* Custom Styled Spring Tab Bar */}
+            <div className="inline-flex max-w-full bg-[#f2f2eb] p-1 rounded-xl mb-6 overflow-x-auto gap-1 border border-brand-olive/10 scrollbar-none">
               {processedTabs.map((tab: any, idx: number) => (
                 <button
                    key={idx}
                    onClick={() => setActiveTab(idx)}
-                   className={`relative py-3 px-6 font-sans text-sm md:text-base font-medium transition-all whitespace-nowrap rounded-xl z-10 flex items-center gap-2 group ${
+                   className={`relative py-2.5 px-4 font-serif text-sm italic font-bold transition-all whitespace-nowrap rounded-lg z-10 flex items-center gap-1.5 ${
                     activeTab === idx
-                      ? 'text-brand-green'
-                      : 'text-stone-500 hover:text-stone-800 hover:bg-stone-200/50'
+                      ? 'text-white'
+                      : 'text-brand-olive/75 hover:text-brand-green hover:bg-brand-olive/5'
                   }`}
                 >
                   {activeTab === idx && (
                     <motion.div
                       layoutId="activeProfileTab"
-                      className="absolute inset-0 bg-white rounded-xl -z-10 shadow-sm border border-stone-100"
-                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                      className="absolute inset-0 bg-brand-green rounded-lg -z-10 shadow-md shadow-brand-green/15"
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   )}
-                  <ChevronRight className={`w-4 h-4 transition-transform ${activeTab === idx ? 'opacity-100 text-brand-green' : 'opacity-40 group-hover:opacity-70'}`} />
+                  <span className="w-1.5 h-1.5 rounded-full bg-current opacity-60" />
                   {tab.title || tab.label || `Tab ${idx + 1}`}
                 </button>
               ))}
             </div>
 
             {/* Tab Content Area */}
-            <div className="p-8 md:p-10 bg-white rounded-3xl border border-stone-100 shadow-2xl shadow-stone-200/50 min-h-[160px] relative overflow-hidden">
+            <div className="p-6 bg-brand-cream/20 rounded-[1.5rem] border border-brand-olive/10 min-h-[140px] relative overflow-hidden shadow-inner">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeTab}
-                  initial={{ opacity: 0, y: 15 }}
+                  initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -15 }}
-                  transition={{ duration: 0.3 }}
-                  className="text-stone-600 font-sans prose prose-stone max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0 text-base md:text-lg leading-loose"
+                  exit={{ opacity: 0, y: -12 }}
+                  transition={{ duration: 0.25 }}
+                  className="text-stone-700 font-light prose prose-stone max-w-none [&>p]:mb-4 [&>p:last-child]:mb-0 text-sm md:text-base leading-relaxed"
                   dangerouslySetInnerHTML={{ __html: processedTabs[activeTab]?.content || processedTabs[activeTab]?.description || "Konten tidak tersedia." }}
                 />
               </AnimatePresence>
